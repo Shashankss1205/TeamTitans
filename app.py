@@ -8,6 +8,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 @cross_origin()
 def process_data():
+    print(0)
     data = request.get_data(as_text=True)
     
     # Save the received data to a temporary file

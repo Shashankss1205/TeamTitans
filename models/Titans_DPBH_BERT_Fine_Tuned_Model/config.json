@@ -40,7 +40,7 @@
   "position_embedding_type": "absolute",
   "problem_type": "single_label_classification",
   "torch_dtype": "float32",
-  "transformers_version": "4.35.2",
+  "transformers_version": "4.41.2",
   "type_vocab_size": 2,
   "use_cache": true,
   "vocab_size": 30522
