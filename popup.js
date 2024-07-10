@@ -12,10 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         detectButton.style.backgroundColor = '#ff0000'; // Use your desired color
 
         // Show "Detecting..." in result-container
-        resultContainer.innerHTML = `
-            <p style="font-size: 15px;">Detecting...</p>
-            <img src="loading.gif" alt="Loading Spinner" style="width: 30px; height: 30px;">
-        `;
+        resultContainer.innerHTML = 'Detecting...';
 
         chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
             const activeTab = tabs[0];
@@ -26,23 +23,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
+// Listen for messages from the background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.command === 'showResults') {
         // Display the results in the popup
         displayResults(message.data);
-
-        // Send the results to the content script
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.tabs.sendMessage(tabs[0].id, { command: 'highlightPatterns', data: message.data });
-        });
 
         // Reset button color after detection is complete
         const detectButton = document.getElementById('detect-popup');
         detectButton.style.backgroundColor = '#007bff'; // Use your original button color
     }
 });
-
 
 // Function to display results in the popup
 async function displayResults(results) {

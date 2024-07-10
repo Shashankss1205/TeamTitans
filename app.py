@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 @cross_origin()
 def process_data():
-    print(0)
+    # print(0)
     data = request.get_data(as_text=True)
     
     # Save the received data to a temporary file
@@ -18,7 +18,7 @@ def process_data():
     
     try:
         # Run tri_model.py as a subprocess
-        command = ['python', 'tri_model.py']
+        command = ['python3', 'tri_model.py']
         subprocess.run(command, check=True)
         # Read the result from the JSON file
         with open('result.json', 'r') as json_file:

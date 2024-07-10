@@ -5,9 +5,9 @@ import torch
 import re
 
 # Paths to the fine-tuned models
-bert_model_path = r".\models\Titans_DPBH_BERT_Fine_Tuned_Model"
-xlnet_model_path = r".\models\Titans_DPBH_XLNet_Fine_Tuned_Model"
-roberta_model_path = r".\models\Titans_DPBH_ROBERT_Fine_Tuned_Model"
+bert_model_path = r"/home/shashank/Desktop/dpbh/Titans_dpbh23/models/Titans_DPBH_BERT_Fine_Tuned_Model"
+xlnet_model_path = r"/home/shashank/Desktop/dpbh/Titans_dpbh23/models/Titans_DPBH_XLNet_Fine_Tuned_Model"
+roberta_model_path = r"/home/shashank/Desktop/dpbh/Titans_dpbh23/models/Titans_DPBH_ROBERT_Fine_Tuned_Model"
 
 # Load models and tokenizers
 bert_tokenizer = BertTokenizer.from_pretrained(bert_model_path)
@@ -22,10 +22,12 @@ roberta_model = RobertaForSequenceClassification.from_pretrained(roberta_model_p
 max_seq_length = 512
 
 def preprocess_text(tokenizer, text):
+    # print(1)
     tokens = tokenizer.tokenize(tokenizer.decode(tokenizer.encode(text, add_special_tokens=True, max_length=max_seq_length, truncation=True)))
     return tokens
 
 def predict_dark_patterns(models, tokenizers, input_text):
+    # print(2)
     votes = []
 
     for model, tokenizer in zip(models, tokenizers):
@@ -42,12 +44,13 @@ def predict_dark_patterns(models, tokenizers, input_text):
     return votes
 
 def count_dark_patterns_with_text(text_file):
+    # print(3)
     with open(text_file, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
     # Map category names to numeric labels
-    category_mapping = {"🚨 Urgency": 0, "❎ Not Dark Pattern": 1, "📉 Scarcity": 2, "⤵ Misdirection": 3, "🤝 Social Proof": 4,
-                        "🚧 Obstruction": 5, "🔐 Sneaking": 6, "⚡ Forced Action": 7}
+    category_mapping = {"Urgency": 0, "Not Dark Pattern": 1, "Scarcity": 2, "Misdirection": 3, "Social Proof": 4,
+                        "Obstruction": 5, "Sneaking": 6, "Forced Action": 7}
 
     dark_patterns = {category: {"count": 0, "text_strings": []} for category in category_mapping}
 
